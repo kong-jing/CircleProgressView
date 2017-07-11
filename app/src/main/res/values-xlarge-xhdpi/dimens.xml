@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <!--8.9' 2048x1536-->
+  <dimen name="gridview_item_width">100dp</dimen>
+  <dimen name="gridview_item_height">115.5dp</dimen>
+  <dimen name="gridview_fontsize">20sp</dimen>
+  <dimen name="gridview_percentfont">50sp</dimen>
+
+  <dimen name="popview_about_title">20sp</dimen>
+  <dimen name="popview_about_version">28sp</dimen>
+  <dimen name="popview_about_name">38sp</dimen>
+
+  <!--渐变进度圈-->
+  <dimen name="progressview_idread">270dp</dimen>
+</resources>
