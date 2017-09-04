@@ -12,4 +12,13 @@
 
   <!--渐变进度圈-->
   <dimen name="progressview_idread">170dp</dimen>
+  <dimen name="pv_textsize">18sp</dimen>
+  <dimen name="pv_xsd_textsize">18sp</dimen>
+  <dimen name="pv_stroke_width">10px</dimen>
+  <dimen name="pv_circle_width">36dp</dimen>
+
+  <!--主界面的按钮value-->
+  <dimen name="tv_padding_top">25px</dimen>
+  <dimen name="tv_padding_bottom">20px</dimen>
+  <dimen name="tv_drawpadding">10px</dimen>
 </resources>

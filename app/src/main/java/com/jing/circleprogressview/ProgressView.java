@@ -2,9 +2,8 @@ package com.jing.circleprogressview;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.graphics.BitmapFactory;
-import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
@@ -15,9 +14,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.Typeface;
-import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 /**
@@ -61,6 +58,9 @@ public class ProgressView extends View {
   Context mContext;
 
   int inner_left, inner_top, outter_left, outter_top, textheight;
+  int xsd_textsize;//相似度字体大小
+  int screenWidth, screenHeight;
+  int strokeWidth;//进度条的粗细
 
   public ProgressView(Context context, AttributeSet attrs, int defStyleAttr) {
     super(context, attrs, defStyleAttr);
@@ -74,6 +74,14 @@ public class ProgressView extends View {
     outter_left = (int) a.getDimension(R.styleable.ProgressView_pv_outter_left, 21);
     outter_top = (int) a.getDimension(R.styleable.ProgressView_pv_outter_top, 19);
     textheight = (int) a.getDimension(R.styleable.ProgressView_pv_text_height, 16);
+    xsd_textsize = (int) a.getDimension(R.styleable.ProgressView_pv_xsd_textsize, 40);
+    strokeWidth = (int) a.getDimension(R.styleable.ProgressView_pv_stroke_width, 20);
+
+    //WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+    //screenWidth = wm.getDefaultDisplay().getWidth();
+    //screenHeight = wm.getDefaultDisplay().getHeight();
+    screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
+    screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
   }
 
   public ProgressView(Context context, AttributeSet attrs) {
@@ -186,8 +194,8 @@ public class ProgressView extends View {
     Path path = new Path();
     int[] colors = new int[]{Color.rgb(97, 155, 186), Color.rgb(55, 145, 189), Color.rgb(88, 180, 223) };
     LinearGradient shader =
-              new LinearGradient(mCenterX, mCenterY, peakPoint[0], peakPoint[1],
-                  Color.rgb(93, 153, 183), Color.rgb(99, 188, 230), Shader.TileMode.CLAMP);
+        new LinearGradient(mCenterX, mCenterY, peakPoint[0], peakPoint[1],
+            Color.rgb(93, 153, 183), Color.rgb(99, 188, 230), Shader.TileMode.CLAMP);
 
     pointerPaint.setColor(Color.rgb(97, 155, 186));
     pointerPaint.setStrokeWidth(1);
@@ -218,12 +226,12 @@ public class ProgressView extends View {
     //外部圆圈中的的画笔
     mPaint.setColor(Color.rgb(54, 176, 234));
     mTextPaint.setTextSize(mTextSize);//设置圆圈内字体的大小
-    mTextPaint.setColor(Color.rgb(254, 255, 255));//设置圆圈内字体颜色
-    canvas.drawText(score + "%" , mWidth / 2, mHeight*2 / 5 + textheight, mTextPaint);
+    mTextPaint.setColor(Color.rgb(54, 176, 234));//设置圆圈内字体颜色
+    canvas.drawText(score + "%" , mWidth *50/ 100, mHeight*35 / 100 + textheight, mTextPaint);//分数
 
-    mTextPaint_xs.setTextSize(50);//设置圆圈内字体的大小
+    mTextPaint_xs.setTextSize(xsd_textsize);//设置圆圈内字体的大小
     mTextPaint_xs.setColor(Color.rgb(54, 176, 234));//设置圆圈内字体颜色
-    canvas.drawText("相似度" , mWidth * 38 / 100 , mHeight * 80 / 100 , mTextPaint_xs);
+    canvas.drawText("相似度" , mWidth * 35 / 100 , mHeight * 75 / 100 , mTextPaint_xs);
 
     if (crrentLevel != null) {
       canvas.drawText(crrentLevel, mWidth / 2, mHeight / 2 + 40, mTextPaint);
@@ -262,7 +270,7 @@ public class ProgressView extends View {
 
   private void initPaint() {
     mPaint.setAntiAlias(true);
-    mPaint.setStrokeWidth((float) 50.0);
+    mPaint.setStrokeWidth((float) strokeWidth);
     mPaint.setStyle(Paint.Style.STROKE);
     mPaint.setStrokeCap(Paint.Cap.SQUARE);//设置形状
     mPaint.setColor(Color.TRANSPARENT);
@@ -273,7 +281,7 @@ public class ProgressView extends View {
     mTextPaint.setColor(Color.rgb(81, 89, 116));
     mTextPaint.setTypeface(Typeface.DEFAULT_BOLD);
     mPaintBg.setAntiAlias(true);
-    mPaintBg.setStrokeWidth((float) 30.0);
+    mPaintBg.setStrokeWidth((float) strokeWidth);
     mPaintBg.setStyle(Paint.Style.STROKE);
     mPaintBg.setStrokeCap(Paint.Cap.SQUARE);
     mPaintBg.setColor(Color.TRANSPARENT);
@@ -445,7 +453,7 @@ public class ProgressView extends View {
   }
 
   public void setBackgroundColor(int[] color){
-     SECTION_COLORS = new int[]{color[0], color[1], color[2]};
+    SECTION_COLORS = new int[]{color[0], color[1], color[2]};
   }
 
 

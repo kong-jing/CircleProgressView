@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <!--4.7' 1280x768-->
+  <!-- 1280x720-->
   <dimen name="gridview_item_width">65dp</dimen>
   <dimen name="gridview_item_height">75.5dp</dimen>
   <dimen name="gridview_fontsize">13sp</dimen>
@@ -11,5 +11,14 @@
   <dimen name="popview_about_name">25sp</dimen>
 
   <!--渐变进度圈-->
-  <dimen name="progressview_idread">190dp</dimen>
+  <dimen name="progressview_idread">180dp</dimen>
+  <dimen name="pv_textsize">20sp</dimen>
+  <dimen name="pv_xsd_textsize">20sp</dimen>
+  <dimen name="pv_stroke_width">14px</dimen>
+  <dimen name="pv_circle_width">32dp</dimen>
+
+  <!--主界面的按钮value-->
+  <dimen name="tv_padding_top">40px</dimen>
+  <dimen name="tv_padding_bottom">35px</dimen>
+  <dimen name="tv_drawpadding">15px</dimen>
 </resources>

@@ -9,5 +9,7 @@
     <attr name="pv_outter_top" format="dimension"/>
     <!--这里是我的特殊含义，设置字的高度-->
     <attr name="pv_text_height" format="dimension"/>
+    <attr name="pv_xsd_textsize" format="dimension"/>
+    <attr name="pv_stroke_width" format="dimension"/>
   </declare-styleable>
 </resources>
