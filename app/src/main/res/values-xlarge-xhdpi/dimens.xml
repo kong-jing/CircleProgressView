@@ -15,7 +15,8 @@
   <dimen name="pv_textsize">35sp</dimen>
   <dimen name="pv_xsd_textsize">37sp</dimen>
   <dimen name="pv_circle_width">30dp</dimen>
-  <dimen name="pv_stroke_width">20px</dimen>
+  <dimen name="pv_stroke_width">26px</dimen>
+  <dimen name="pv_stroke_width_outter">22px</dimen>
 
   <!--主界面的按钮value-->
   <dimen name="tv_padding_top">110px</dimen>

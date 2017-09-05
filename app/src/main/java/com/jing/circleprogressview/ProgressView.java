@@ -10,6 +10,7 @@ import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.PaintFlagsDrawFilter;
 import android.graphics.Path;
+import android.graphics.RadialGradient;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Shader;
@@ -57,10 +58,10 @@ public class ProgressView extends View {
   private int mTextSize;//设置一个全局使用的圈内字体大小
   Context mContext;
 
-  int inner_left, inner_top, outter_left, outter_top, textheight;
+  int inner_circle, outter_circle, textheight;
   int xsd_textsize;//相似度字体大小
   int screenWidth, screenHeight;
-  int strokeWidth;//进度条的粗细
+  int strokeWidth, strokeWidthOutter;//进度条的粗细
 
   public ProgressView(Context context, AttributeSet attrs, int defStyleAttr) {
     super(context, attrs, defStyleAttr);
@@ -69,13 +70,12 @@ public class ProgressView extends View {
     //设置app属性
     TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ProgressView, defStyleAttr, 0);
     mTextSize = (int) a.getDimension(R.styleable.ProgressView_pv_textsize, 14);
-    inner_left = (int) a.getDimension(R.styleable.ProgressView_pv_inner_left, 20);
-    inner_top = (int) a.getDimension(R.styleable.ProgressView_pv_inner_top, 19);
-    outter_left = (int) a.getDimension(R.styleable.ProgressView_pv_outter_left, 21);
-    outter_top = (int) a.getDimension(R.styleable.ProgressView_pv_outter_top, 19);
+    inner_circle = (int) a.getDimension(R.styleable.ProgressView_pv_inner_circle, 20);//用于圆弧的宽度
+    outter_circle = (int) a.getDimension(R.styleable.ProgressView_pv_outter_circle, 21);//用于外圈圆弧的宽度
     textheight = (int) a.getDimension(R.styleable.ProgressView_pv_text_height, 16);
     xsd_textsize = (int) a.getDimension(R.styleable.ProgressView_pv_xsd_textsize, 40);
-    strokeWidth = (int) a.getDimension(R.styleable.ProgressView_pv_stroke_width, 20);
+    strokeWidth = (int) a.getDimension(R.styleable.ProgressView_pv_stroke_width, 30);
+    strokeWidthOutter = (int) a.getDimension(R.styleable.ProgressView_pv_stroke_width_outter, 20);
 
     //WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
     //screenWidth = wm.getDefaultDisplay().getWidth();
@@ -120,11 +120,11 @@ public class ProgressView extends View {
     //抗锯齿
     canvas.setDrawFilter(new PaintFlagsDrawFilter(0, Paint.ANTI_ALIAS_FLAG | Paint.FILTER_BITMAP_FLAG));
 
-    RectF rectBlackBg = new RectF(inner_left, inner_left, mWidth - inner_top, mHeight - inner_top);
+    RectF rectBlackBg = new RectF(inner_circle, inner_circle, mWidth - inner_circle, mHeight - inner_circle);//内圈圆弧
     //canvas.drawArc(rectBlackBg, 150, 240, true,
     //    mPaint);//oval：圆弧所在的椭圆对象。startAngle：圆弧的起始角度。sweepAngle：圆弧的角度。useCenter：是否显示半径连线，true表示显示圆弧与圆心的半径连线，false表示不显示。paint：绘制时所使用的画笔。
-    RectF rectbg = new RectF(outter_left, outter_left, mWidth - outter_top,
-        mHeight - outter_top);//我想要给圆弧加一个灰色背景
+    RectF rectbg = new RectF(outter_circle, outter_circle, mWidth - outter_circle,
+        mHeight - outter_circle);//我想要给圆弧加一个灰色背景，外圈圆弧
 
     mPaintBg.setColor(Color.rgb(97, 155, 186));//设置背景圆弧画笔
 
@@ -185,23 +185,25 @@ public class ProgressView extends View {
         mCenterY - (int) (mRadius / 3f / 2 / 2), mCenterX + (int) (mRadius / 3f / 2 / 2), mCenterY + (int) (mRadius / 3f / 2 / 2));
     int anglePointer = (int) (3.6*currentAngleLength  + mStartAngle);
     //指针的定点坐标
-    int[] peakPoint = getPointFromAngleAndRadius(anglePointer, (int) (mRadius / 5f ));
+    int[] peakPoint = getPointFromAngleAndRadius(anglePointer, (int) (mRadius / 7f ));
     //顶点朝上，左侧的底部点的坐标
-    int[] bottomLeft = getPointFromAngleAndRadius(anglePointer - 90, (int) (mRadius / 3f / 2 / 2 +1));
+    int[] bottomLeft = getPointFromAngleAndRadius(anglePointer - 90, (int) (mRadius / 3f / 2 / 2 ));
     //顶点朝上，右侧的底部点的坐标
     int[] bottomRight = getPointFromAngleAndRadius(anglePointer + 90, (int) (mRadius / 3f / 2 / 2 ));
 
     Path path = new Path();
     int[] colors = new int[]{Color.rgb(97, 155, 186), Color.rgb(55, 145, 189), Color.rgb(88, 180, 223) };
-    LinearGradient shader =
-        new LinearGradient(mCenterX, mCenterY, peakPoint[0], peakPoint[1],
-            Color.rgb(93, 153, 183), Color.rgb(99, 188, 230), Shader.TileMode.CLAMP);
-
+    Shader shader =
+        new LinearGradient(peakPoint[0], peakPoint[1], bottomLeft[0], bottomLeft[1],
+            Color.rgb(99, 188, 230), Color.rgb(93, 153, 183), Shader.TileMode.CLAMP);
+    //Shader shader = new RadialGradient(mCenterX, mCenterY, (int) (mRadius / 3f / 2 / 2 ), Color.rgb(93, 153, 183),
+    //    Color.rgb(99, 188, 230), Shader.TileMode.CLAMP);
     pointerPaint.setColor(Color.rgb(97, 155, 186));
     pointerPaint.setStrokeWidth(1);
     pointerPaint.setStyle(Paint.Style.FILL_AND_STROKE);
     pointerPaint.setDither(true);
     pointerPaint.setAntiAlias(true);
+    pointerPaint.setShader(shader);
     path.reset();
     path.setFillType(Path.FillType.EVEN_ODD);
     path.moveTo(mCenterX, mCenterY);
@@ -209,7 +211,7 @@ public class ProgressView extends View {
     path.lineTo(bottomLeft[0], bottomLeft[1]);
     path.close();
     canvas.drawPath(path, pointerPaint);
-    canvas.drawArc(rectFPointer, anglePointer - 180, 100, true, pointerPaint);
+    canvas.drawArc(rectFPointer, anglePointer - 190, 100, true, pointerPaint);
 
 
     path.reset();
@@ -218,7 +220,7 @@ public class ProgressView extends View {
     path.lineTo(bottomRight[0], bottomRight[1]);
     path.close();
     canvas.drawPath(path, pointerPaint);
-    canvas.drawArc(rectFPointer, anglePointer + 80, 100, true, pointerPaint);
+    canvas.drawArc(rectFPointer, anglePointer + 90, 100, true, pointerPaint);
 
 
     canvas.drawArc(rectbg, 150, 240, false, mPaintBg);
@@ -281,7 +283,7 @@ public class ProgressView extends View {
     mTextPaint.setColor(Color.rgb(81, 89, 116));
     mTextPaint.setTypeface(Typeface.DEFAULT_BOLD);
     mPaintBg.setAntiAlias(true);
-    mPaintBg.setStrokeWidth((float) strokeWidth);
+    mPaintBg.setStrokeWidth((float) strokeWidthOutter);
     mPaintBg.setStyle(Paint.Style.STROKE);
     mPaintBg.setStrokeCap(Paint.Cap.SQUARE);
     mPaintBg.setColor(Color.TRANSPARENT);

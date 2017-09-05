@@ -14,7 +14,8 @@
   <dimen name="progressview_idread">180dp</dimen>
   <dimen name="pv_textsize">20sp</dimen>
   <dimen name="pv_xsd_textsize">20sp</dimen>
-  <dimen name="pv_stroke_width">14px</dimen>
+  <dimen name="pv_stroke_width">16px</dimen>
+  <dimen name="pv_stroke_width_outter">12px</dimen>
   <dimen name="pv_circle_width">32dp</dimen>
 
   <!--主界面的按钮value-->

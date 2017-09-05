@@ -14,7 +14,8 @@
     <dimen name="progressview_idread">140dp</dimen>
     <dimen name="pv_textsize">20sp</dimen>
     <dimen name="pv_xsd_textsize">22sp</dimen>
-    <dimen name="pv_stroke_width">12px</dimen>
+    <dimen name="pv_stroke_width">14px</dimen>
+    <dimen name="pv_stroke_width_outter">10px</dimen>
 
     <!--主界面的按钮value-->
     <dimen name="tv_padding_top">20px</dimen>

@@ -3,13 +3,12 @@
   <declare-styleable name="ProgressView">
     <attr name="pv_textsize" format="dimension"/>
     <!--内圈-->
-    <attr name="pv_inner_left" format="dimension"/>
-    <attr name="pv_inner_top" format="dimension"/>
-    <attr name="pv_outter_left" format="dimension"/>
-    <attr name="pv_outter_top" format="dimension"/>
+    <attr name="pv_inner_circle" format="dimension"/>
+    <attr name="pv_outter_circle" format="dimension"/>
     <!--这里是我的特殊含义，设置字的高度-->
     <attr name="pv_text_height" format="dimension"/>
     <attr name="pv_xsd_textsize" format="dimension"/>
     <attr name="pv_stroke_width" format="dimension"/>
+    <attr name="pv_stroke_width_outter" format="dimension"/>
   </declare-styleable>
 </resources>

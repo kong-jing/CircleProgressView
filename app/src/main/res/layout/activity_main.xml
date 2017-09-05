@@ -9,13 +9,12 @@
     >
 
   <com.jing.circleprogressview.ProgressView
-      app:pv_inner_top="@dimen/pv_circle_width"
-      app:pv_inner_left="@dimen/pv_circle_width"
-      app:pv_outter_left="@dimen/pv_circle_width"
-      app:pv_outter_top="@dimen/pv_circle_width"
+      app:pv_inner_circle="@dimen/pv_circle_width"
+      app:pv_outter_circle="@dimen/pv_circle_width"
       app:pv_textsize="@dimen/pv_textsize"
       app:pv_xsd_textsize="@dimen/pv_xsd_textsize"
       app:pv_stroke_width="@dimen/pv_stroke_width"
+      app:pv_stroke_width_outter="@dimen/pv_stroke_width_outter"
       app:pv_text_height="2dp"
       android:id="@+id/progress"
       android:layout_width="@dimen/progressview_idread"
